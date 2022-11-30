@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+# Visual Studio Solution files
+*.sln
+
 # Compiled Object files
 *.slo
 *.lo
@@ -30,3 +33,23 @@
 *.exe
 *.out
 *.app
+
+# Folders
+# Visual Studio files
+.vs/
+
+# Folder with executables for x64 systems
+x64/
+
+# Exteranl folder with SFML library
+External/
+
+# Visual Studio files
+main/.vs/
+
+# Folder with executables for x64 systems
+main/x64/
+
+main/*.vsxproj
+main/*.vsxproj.filters
+main/*.vsxproj.user
