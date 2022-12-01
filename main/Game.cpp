@@ -70,6 +70,14 @@ void Game::pollEvents()
 void Game::update()
 {
 	// Move player
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		this->player->move(-1.f, 0.f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		this->player->move(1.f, 0.f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		this->player->move(0.f, -1.f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		this->player->move(0.f, 1.f);
 }
 
 // RENDER

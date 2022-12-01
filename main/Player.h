@@ -14,6 +14,8 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 
+	float movementSpeed;
+
 	// INIT Funcitons
 	void initTexture();
 	void initSprite();
@@ -24,6 +26,8 @@ public:
 
 
 	// Functions
+	void move(const float dirX, const float dirY);
+
 	void update();
 	void render(sf::RenderTarget* target);
 };
