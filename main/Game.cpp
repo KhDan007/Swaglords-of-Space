@@ -15,17 +15,24 @@ void Game::initWindow()
 	this->window->setVerticalSyncEnabled(false);
 }
 
+void Game::initPlayer()
+{
+	this->player = new Player;
+}
+
 // Constructor
 Game::Game()
 {
 	this->initVariables();
 	this->initWindow();
+	this->initPlayer();
 }
 
 // Destructor
 Game::~Game()
 {
 	delete window;
+	delete player;
 }
 
 // Functions
@@ -62,6 +69,7 @@ void Game::pollEvents()
 // UPDATE
 void Game::update()
 {
+	// Move player
 }
 
 // RENDER
@@ -70,6 +78,7 @@ void Game::render()
 	this->window->clear();
 
 	// Draw all stuff
+	this->player->render(window);
 
 
 	this->window->display();

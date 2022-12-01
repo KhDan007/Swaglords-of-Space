@@ -3,7 +3,9 @@
 // INIT
 void Player::initTexture()
 {
-
+	// Load a texture from file
+	if (!this->texture.loadFromFile("Textures/ship.png"))
+		std::cout << "ERROR::PLAYER::INITTEXTURE::Couldn't load texture from file\n";
 }
 
 void Player::initSprite()

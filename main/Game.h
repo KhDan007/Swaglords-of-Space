@@ -11,9 +11,13 @@ private:
 
 	bool isEndgame;
 
+	// Creating a player
+	Player* player;
+
 	// INIT functions
 	void initVariables();
 	void initWindow();
+	void initPlayer();
 
 public:
 	Game();

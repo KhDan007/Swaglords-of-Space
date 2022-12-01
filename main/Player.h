@@ -5,6 +5,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 
+// Including Input/Output stream
+#include <iostream>
 
 class Player
 {
