@@ -39,10 +39,11 @@ public:
 	void pollEvents();
 
 
-
 	// UPDATE
+	void updateWindowBounds(sf::RenderTarget* target);
 	void updateInput();
 	void updateBullets();
+	
 	void update();
 	
 	// RENDER

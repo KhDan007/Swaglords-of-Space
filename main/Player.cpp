@@ -4,7 +4,7 @@ void Player::initVaraibles()
 {
 	this->movementSpeed = 5.f;
 
-	this->attackCoolDownMax = 8.f;
+	this->attackCoolDownMax = 10.f;
 	this->attackCoolDown = this->attackCoolDownMax;
 }
 
@@ -48,6 +48,16 @@ float Player::getCenterPosX()
 	return this->getPos().x + this->sprite.getGlobalBounds().width / 2 -5.f;
 }
 
+sf::FloatRect Player::getBounds()
+{
+	return this->sprite.getGlobalBounds();
+}
+
+void Player::setPos(float pos_x, float pos_y)
+{
+	this->sprite.setPosition(sf::Vector2f(pos_x, pos_y));
+}
+
 
 
 
@@ -72,12 +82,8 @@ void Player::updateAttack()
 {
 	if (this->attackCoolDown < this->attackCoolDownMax)
 	{
-		this->attackCoolDown += 0.5;
+		this->attackCoolDown += 1;
 	}
-	else {
-
-	}
-
 }
 
 // UPDATE

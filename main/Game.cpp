@@ -83,6 +83,27 @@ void Game::pollEvents()
 }
 
 
+void Game::updateWindowBounds(sf::RenderTarget* target)
+{
+	if (this->player->getBounds().left < 0.f)
+	{
+		this->player->setPos(0.f, this->player->getPos().y);
+	}
+	if (this->player->getBounds().left + this->player->getBounds().width > target->getSize().x)
+	{
+		this->player->setPos(target->getSize().x - this->player->getBounds().width, this->player->getPos().y);
+	}
+	if (this->player->getBounds().top < 0.f)
+	{
+		this->player->setPos(this->player->getPos().x, 0.f);
+	}
+	if (this->player->getBounds().top + this->player->getBounds().height > target->getSize().y)
+	{
+		this->player->setPos(this->player->getPos().x, target->getSize().y - this->player->getBounds().height);
+	}
+}
+
+
 void Game::updateInput()
 {
 	// Move player
@@ -98,7 +119,7 @@ void Game::updateInput()
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->canAttack())
 	{
 		this->bullets.push_back(new Bullet(
-			this->textures["BULLET"], this->player->getCenterPosX(), this->player->getPos().y, 0, -1, 7
+			this->textures["BULLET"], this->player->getCenterPosX(), this->player->getPos().y, 0, -1, 10
 		));
 	}
 }
@@ -135,6 +156,8 @@ void Game::update()
 	this->updateInput();
 
 	this->player->update();
+
+	this->updateWindowBounds(this->window);
 
 	this->updateBullets();
 }

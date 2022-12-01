@@ -32,6 +32,11 @@ public:
 	const sf::Vector2f& getPos() const;
 	float getCenterPosX();
 
+	sf::FloatRect getBounds();
+
+	// Setters
+	void setPos(float pos_x, float pos_y);
+
 	// Functions
 	void move(const float dirX, const float dirY);
 	bool canAttack();
