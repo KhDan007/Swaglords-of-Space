@@ -28,7 +28,13 @@ public:
 
 	void pollEvents();
 
+
+
+	// UPDATE
+	void updateMove();
 	void update();
+	
+	// RENDER
 	void render();
 };
 

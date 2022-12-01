@@ -41,8 +41,6 @@ void Game::run()
 {
 	while (this->window->isOpen())
 	{
-		this->pollEvents();
-
 		this->update();
 		this->render();
 	}
@@ -66,8 +64,7 @@ void Game::pollEvents()
 }
 
 
-// UPDATE
-void Game::update()
+void Game::updateMove()
 {
 	// Move player
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
@@ -78,6 +75,16 @@ void Game::update()
 		this->player->move(0.f, -1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		this->player->move(0.f, 1.f);
+}
+
+// UPDATE
+void Game::update()
+{
+	// POLLEVENTS
+	this->pollEvents();
+
+
+	this->updateMove();
 }
 
 // RENDER
