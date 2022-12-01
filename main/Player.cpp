@@ -1,5 +1,13 @@
 #include "Player.h"
 
+void Player::initVaraibles()
+{
+	this->movementSpeed = 5.f;
+
+	this->attackCoolDownMax = 10.f;
+	this->attackCoolDown = this->attackCoolDownMax;
+}
+
 // INIT
 void Player::initTexture()
 {
@@ -20,8 +28,7 @@ void Player::initSprite()
 // Constructor
 Player::Player()
 {
-	this->movementSpeed = 5.f;
-
+	this->initVaraibles();
 	this->initTexture();
 	this->initSprite();
 }
@@ -45,10 +52,33 @@ void Player::move(const float dirX, const float dirY)
 	this->sprite.move(movementSpeed * dirX, movementSpeed * dirY);
 }
 
+bool Player::canAttack()
+{
+	if (this->attackCoolDown >= this->attackCoolDownMax)
+	{
+		this->attackCoolDown = 0.f;
+		return true;
+	}
+	return false;
+}
+
+
+void Player::updateAttack()
+{
+	if (this->attackCoolDown < this->attackCoolDownMax)
+	{
+		this->attackCoolDown += 0.5;
+	}
+	else {
+
+	}
+
+}
 
 // UPDATE
 void Player::update()
 {
+	this->updateAttack();
 }
 
 
