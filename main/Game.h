@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Player.h"
+#include "Bullet.h"
+
 #include <map>
 
 class Game
@@ -14,7 +16,8 @@ private:
 	bool isEndgame;
 
 	// Resources
-	std::map <std::string, sf::Texture> textures;
+	std::map <std::string, sf::Texture*> textures;
+	std::vector<Bullet*> bullets;
 
 
 	// Creating a player
@@ -38,7 +41,8 @@ public:
 
 
 	// UPDATE
-	void updateMove();
+	void updateInput();
+	void updateBullets();
 	void update();
 	
 	// RENDER

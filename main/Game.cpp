@@ -18,6 +18,9 @@ void Game::initWindow()
 void Game::initTextures()
 {
 	// INIT TEXTURES
+	this->textures["BULLET"] = new sf::Texture();
+	if (!this->textures["BULLET"]->loadFromFile("Textures/bullet.png"))
+		std::cout << "ERROR::GAME::INITTEXTURES::Couldn't load textures\n";
 }
 
 void Game::initPlayer()
@@ -30,6 +33,7 @@ Game::Game()
 {
 	this->initVariables();
 	this->initWindow();
+	this->initTextures();
 	this->initPlayer();
 }
 
@@ -38,6 +42,16 @@ Game::~Game()
 {
 	delete window;
 	delete player;
+
+	// Delete textures
+	for (auto& i : this->textures)
+	{
+		delete i.second;
+	}
+
+	// Delete Bullets
+	for (auto& i : this->bullets)
+		delete i;
 }
 
 // Functions
@@ -69,7 +83,7 @@ void Game::pollEvents()
 }
 
 
-void Game::updateMove()
+void Game::updateInput()
 {
 	// Move player
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
@@ -80,6 +94,19 @@ void Game::updateMove()
 		this->player->move(0.f, -1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		this->player->move(0.f, 1.f);
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		this->bullets.push_back(new Bullet(
+			this->textures["BULLET"], 0, 0, 0, 0, 0
+		));
+	}
+}
+
+void Game::updateBullets()
+{
+	for (auto* bullet : this->bullets)
+		bullet->update();
 }
 
 // UPDATE
@@ -88,8 +115,9 @@ void Game::update()
 	// POLLEVENTS
 	this->pollEvents();
 
+	this->updateInput();
 
-	this->updateMove();
+	this->updateBullets();
 }
 
 // RENDER
@@ -99,6 +127,9 @@ void Game::render()
 
 	// Draw all stuff
 	this->player->render(window);
+
+	for (auto* bullet : this->bullets)
+		bullet->render(this->window);
 
 
 	this->window->display();
