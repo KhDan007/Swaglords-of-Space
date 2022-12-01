@@ -11,15 +11,18 @@
 class Bullet
 {
 private:
-	sf::Sprite sprite;
-	sf::Texture* texture;
+	sf::Sprite shape;
+
+	sf::Vector2f direction;
+	float movementSpeed;
 
 public:
 	Bullet();
+	Bullet(sf::Texture* texture, float dir_x, float dir_y, float movement_speed);
 	virtual ~Bullet();
 
 	// Functions
 	void update();
-	void render();
+	void render(sf::RenderTarget* target);
 };
 

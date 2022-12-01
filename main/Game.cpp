@@ -15,6 +15,11 @@ void Game::initWindow()
 	this->window->setVerticalSyncEnabled(false);
 }
 
+void Game::initTextures()
+{
+	// INIT TEXTURES
+}
+
 void Game::initPlayer()
 {
 	this->player = new Player;

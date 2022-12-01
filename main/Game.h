@@ -1,15 +1,21 @@
 #pragma once
 
 #include "Player.h"
+#include <map>
 
 class Game
 {
 private:
+	// Window
 	sf::VideoMode videomode;
 	sf::RenderWindow* window;
 	sf::Event ev;
 
 	bool isEndgame;
+
+	// Resources
+	std::map <std::string, sf::Texture> textures;
+
 
 	// Creating a player
 	Player* player;
@@ -17,6 +23,7 @@ private:
 	// INIT functions
 	void initVariables();
 	void initWindow();
+	void initTextures();
 	void initPlayer();
 
 public:
