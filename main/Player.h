@@ -30,6 +30,7 @@ public:
 
 	// Accessors
 	const sf::Vector2f& getPos() const;
+	float getCenterPosX();
 
 	// Functions
 	void move(const float dirX, const float dirY);
