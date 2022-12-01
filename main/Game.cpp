@@ -98,7 +98,7 @@ void Game::updateInput()
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		this->bullets.push_back(new Bullet(
-			this->textures["BULLET"], 0, 0, 0, 0, 0
+			this->textures["BULLET"], this->player->getPos().x, this->player->getPos().y, 0, 0, 0
 		));
 	}
 }

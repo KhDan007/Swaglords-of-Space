@@ -31,6 +31,11 @@ Player::~Player()
 {
 }
 
+const sf::Vector2f& Player::getPos() const
+{
+	return this->sprite.getPosition();
+}
+
 
 
 

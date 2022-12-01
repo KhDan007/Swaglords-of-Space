@@ -24,6 +24,8 @@ public:
 	Player();
 	~Player();
 
+	// Accessors
+	const sf::Vector2f& getPos() const;
 
 	// Functions
 	void move(const float dirX, const float dirY);
