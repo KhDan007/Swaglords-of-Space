@@ -98,15 +98,32 @@ void Game::updateInput()
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		this->bullets.push_back(new Bullet(
-			this->textures["BULLET"], this->player->getPos().x, this->player->getPos().y, 0, 0, 0
+			this->textures["BULLET"], this->player->getPos().x, this->player->getPos().y, 0, -1, 7
 		));
 	}
 }
 
 void Game::updateBullets()
 {
+	size_t count{};
+
 	for (auto* bullet : this->bullets)
+	{
 		bullet->update();
+
+		// Bullet culling (reached top of the screen)
+		if (bullet->getBounds().top + bullet->getBounds().height < 0.f)
+		{
+			// Delete bullet
+			delete this->bullets.at(count);
+			this->bullets.erase(this->bullets.begin() + count);
+			--count;
+		}
+
+		++count;
+	}
+
+
 }
 
 // UPDATE
