@@ -7,6 +7,7 @@ class Enemy
 {
 private:
 	sf::CircleShape shape;
+	size_t pointCount;
 	int type;
 	int hp;
 	int hpMax;

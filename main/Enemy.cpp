@@ -4,19 +4,20 @@
 // INIT VARIABLES
 void Enemy::initVariables()
 {
+	this->pointCount = static_cast<size_t>(rand() % 9 + 2); // min 3 max 10
 	this->type	= 0;
-	this->hpMax	= 10;
-	this->hp		= hpMax;
-	this->damage	= 1;	
-	this->points	= 0;
-	this->speed		= 4.f;
+	this->speed		= static_cast<float>(pointCount);
+	this->hpMax	= this->pointCount;
+	this->hp		= this->hpMax;
+	this->damage	= this->pointCount;
+	this->points	= this->pointCount;
 }
 
 // INIT SHAPE
 void Enemy::initShape()
 {
-	this->shape.setRadius(rand() % 20 + 20);
-	this->shape.setPointCount(static_cast<float>(rand() % 4 + 3));
+	this->shape.setRadius(this->pointCount * 4);
+	this->shape.setPointCount(this->pointCount);
 	this->shape.setFillColor(sf::Color(rand() % 200 + 55, rand() % 200 + 55, rand() % 200 + 55, 255));
 }
 
