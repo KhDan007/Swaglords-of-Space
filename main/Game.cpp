@@ -32,7 +32,7 @@ void Game::initTextures()
 
 	// Loading texture from file
 	if (!this->textures["BULLET"]->loadFromFile("Textures/bullet.png"))
-		std::cout << "ERROR::GAME::INITTEXTURES::Couldn't load textures\n";
+		std::cout << "ERROR::GAME::INITTEXTURES::Couldn't load textures\n";	
 }
 
 void Game::initFonts()
@@ -53,6 +53,14 @@ void Game::initGUI()
 	this->pointsText.setFillColor(sf::Color::White);
 	this->pointsText.setString("NONE");
 	this->pointsText.setPosition(sf::Vector2f(10, 10));
+}
+
+void Game::initWorld()
+{
+	if (!this->worldTexture.loadFromFile("Textures/background1.jpg"))
+		std::cout << "ERROR::GAME::INITTEXTURES::Couldn't load textures\n";
+
+	this->worldBG.setTexture(this->worldTexture);
 }
 
 // INIT PLAYER
@@ -83,6 +91,7 @@ Game::Game()
 
 	this->initFonts();
 	this->initGUI();
+	this->initWorld();
 
 	this->initTextures();
 	this->initPlayer();
@@ -182,12 +191,16 @@ void Game::updateInput()
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->canAttack())
 	{
 		// Spawning a bullet
-		this->bullets.push_back(new Bullet(
+		Bullet* tempBullet = new Bullet(
 			this->textures["BULLET"],
 			this->player->getCenterPosX(),
 			this->player->getPos().y,
 			0, -1, this->bulletSpeed
-		));
+		);
+
+		
+
+		this->bullets.push_back(tempBullet);
 	}
 }
 
@@ -251,7 +264,7 @@ void Game::updateEnemiesAndCombat()
 
 
 		// Simple check if enemy's rand position intersects window bounds
-		float randX = rand() % this->window->getSize().x;
+		float randX = static_cast<float>(rand() % this->window->getSize().x);
 		if (randX + tempEnemy->getBounds().width > this->window->getSize().x)
 		{
 			randX = randX - tempEnemy->getBounds().width;
@@ -317,11 +330,19 @@ void Game::renderGUI(sf::RenderTarget* target)
 	target->draw(this->pointsText);
 }
 
+void Game::renderWorld(sf::RenderTarget* target)
+{
+	target->draw(this->worldBG);
+}
+
 // RENDER
 void Game::render()
 {
 	// Clear old frame
 	this->window->clear();
+
+	// Draw world
+	this->renderWorld(this->window);
 
 	// Draw all stuff
 	this->player->render(window);

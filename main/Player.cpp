@@ -52,7 +52,7 @@ const sf::Vector2f& Player::getPos() const
 
 float Player::getCenterPosX()
 {
-	return this->getPos().x + this->sprite.getGlobalBounds().width / 2 -5.f;
+	return this->getPos().x + this->sprite.getGlobalBounds().width / 2 -2.5f;
 }
 
 sf::FloatRect Player::getBounds()
