@@ -29,8 +29,10 @@ void Player::initSprite()
 }
 
 // Constructor
-Player::Player()
+Player::Player(float pos_x, float pos_y)
 {
+	this->sprite.setPosition(pos_x, pos_y);
+
 	this->initVaraibles();
 	this->initTexture();
 	this->initSprite();

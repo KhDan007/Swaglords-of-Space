@@ -14,9 +14,11 @@
 // Import enemy class
 #include "Enemy.h"
 
-// Include map
+// Import map
 #include <map>
 
+// Import sstream
+#include <sstream>
 
 class Game
 {
@@ -25,6 +27,15 @@ private:
 	sf::VideoMode videomode;
 	sf::RenderWindow* window;
 	sf::Event ev;
+
+	// GUI
+	sf::Font font;
+	sf::Text pointsText;
+	
+	// Member variables
+	bool isEndgame;
+	int points;
+	float bulletSpeed;
 
 	// Resources
 	std::map <std::string, sf::Texture*> textures;
@@ -38,14 +49,14 @@ private:
 	float spawnTimerMax;
 	std::vector<Enemy*> enemies;
 
-	// Member variables
-	bool isEndgame;
-	
 	
 	// INIT functions
 	void initVariables();
 	void initWindow();
 	void initTextures();
+
+	void initFonts();
+	void initGUI();
 
 	void initPlayer();
 	void initEnemies();
@@ -63,12 +74,20 @@ public:
 
 	// UPDATE
 	void updateWindowBounds(sf::RenderTarget* target);
+	
 	void updateInput();
+
+	void updateGUI();
+
 	void updateBullets();
-	void updateEnemies();
+	
+	void updateEnemiesAndCombat();
+	
 	void update();
 	
 	// RENDER
+	void renderGUI(sf::RenderTarget* target);
+
 	void render();
 };
 

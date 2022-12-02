@@ -38,7 +38,7 @@ private:
 
 public:
 	// Constructors / Destructors
-	Player();
+	Player(float pos_x, float pos_y);
 	~Player();
 
 	// Getters

@@ -9,7 +9,7 @@ void Enemy::initVariables()
 	this->hp		= hpMax;
 	this->damage	= 1;	
 	this->points	= 0;
-	this->speed		= 2.f;
+	this->speed		= 4.f;
 }
 
 // INIT SHAPE

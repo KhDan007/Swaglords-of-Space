@@ -4,6 +4,8 @@
 void Game::initVariables()
 {
 	this->isEndgame = false;
+	this->points = 0;
+	this->bulletSpeed = 10.f;
 }
 
 // INIT WINDOW
@@ -33,10 +35,37 @@ void Game::initTextures()
 		std::cout << "ERROR::GAME::INITTEXTURES::Couldn't load textures\n";
 }
 
+void Game::initFonts()
+{
+	// Load font
+	if (!this->font.loadFromFile("Fonts/PixellettersFull.ttf"))
+	{
+		std::cout << "ERROR::GAME::INITGUI::Couldn't load font\n";
+	}
+}
+
+// INIT GUI
+void Game::initGUI()
+{
+	// Init point text
+	this->pointsText.setFont(this->font);
+	this->pointsText.setCharacterSize(30);
+	this->pointsText.setFillColor(sf::Color::White);
+	this->pointsText.setString("NONE");
+	this->pointsText.setPosition(sf::Vector2f(10, 10));
+}
+
 // INIT PLAYER
 void Game::initPlayer()
 {
-	this->player = new Player;
+	this->player = new Player(0, 0);
+
+	// Center spawn
+	float centerWindow = static_cast<float>(this->window->getSize().x) / 2;
+	float playerX = centerWindow - this->player->getBounds().width / 2;
+	float playerY = this->window->getSize().y - this->player->getBounds().height;
+
+	this->player->setPos(playerX, playerY);
 }
 
 // INIT ENEMIES
@@ -51,6 +80,10 @@ Game::Game()
 {
 	this->initVariables();
 	this->initWindow();
+
+	this->initFonts();
+	this->initGUI();
+
 	this->initTextures();
 	this->initPlayer();
 	this->initEnemies();
@@ -153,9 +186,17 @@ void Game::updateInput()
 			this->textures["BULLET"],
 			this->player->getCenterPosX(),
 			this->player->getPos().y,
-			0, -1, 10
+			0, -1, this->bulletSpeed
 		));
 	}
+}
+
+void Game::updateGUI()
+{
+	std::stringstream Spoints;
+	Spoints << "Points: " << this->points << "\n";
+
+	this->pointsText.setString(Spoints.str());
 }
 
 // UPDATE BULLETS
@@ -192,7 +233,7 @@ void Game::updateBullets()
 }
 
 // UPDATE ENEMIES
-void Game::updateEnemies()
+void Game::updateEnemiesAndCombat()
 {
 	/*
 		@return void
@@ -227,12 +268,28 @@ void Game::updateEnemies()
 	// Go through enemies vector
 	for (size_t i = 0; i < this->enemies.size(); i++)
 	{
+		bool isEnemyRemoved = false;
+
 		this->enemies[i]->update();
+
+		// COMBAT
+		for (size_t j{}; j < this->bullets.size() && !isEnemyRemoved; ++j)
+		{
+			if (this->bullets[j]->getBounds().intersects(this->enemies[i]->getBounds()))
+			{
+				this->bullets.erase(this->bullets.begin() + j);
+				this->enemies.erase(this->enemies.begin() + i);
+				isEnemyRemoved = true;
+			
+				this->points += 1;
+			}
+		}
 	
 		// Remove enemies which outside the screen
-		if (this->enemies[i]->getBounds().top > this->window->getSize().y)
+		if (!isEnemyRemoved && this->enemies[i]->getBounds().top > this->window->getSize().y)
 		{
 			this->enemies.erase(this->enemies.begin() + i);
+			isEnemyRemoved = true;
 		}
 	}
 }
@@ -250,7 +307,14 @@ void Game::update()
 
 	this->updateBullets();
 
-	this->updateEnemies();
+	this->updateEnemiesAndCombat();
+
+	this->updateGUI();
+}
+
+void Game::renderGUI(sf::RenderTarget* target)
+{
+	target->draw(this->pointsText);
 }
 
 // RENDER
@@ -271,6 +335,9 @@ void Game::render()
 	{
 		enemy->render(this->window);
 	}
+
+	// Draw GUI
+	this->renderGUI(this->window);
 
 	// Show everything
 	this->window->display();
