@@ -19,12 +19,15 @@ private:
 
 public:
 	// Constructors / Destructors
-	Enemy(float pos_x, float pos_y, float radius);
+	Enemy(float pos_x, float pos_y);
 	~Enemy();
 
 	// Accessors
 	sf::FloatRect getBounds() const;
 	sf::Vector2f getPos() const;
+
+	// Setters
+	void setPos(float x, float y);
 
 	void update();
 	void render(sf::RenderTarget* target);

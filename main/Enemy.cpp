@@ -15,15 +15,15 @@ void Enemy::initVariables()
 // INIT SHAPE
 void Enemy::initShape()
 {
+	this->shape.setRadius(rand() % 20 + 20);
 	this->shape.setPointCount(static_cast<float>(rand() % 4 + 3));
 	this->shape.setFillColor(sf::Color(rand() % 200 + 55, rand() % 200 + 55, rand() % 200 + 55, 255));
 }
 
 // Constructors / Destructors
-Enemy::Enemy(float pos_x, float pos_y, float radius)
+Enemy::Enemy(float pos_x, float pos_y)
 {
 	this->shape.setPosition(sf::Vector2f(pos_x, pos_y));
-	this->shape.setRadius(radius);
 
 	this->initVariables();
 	this->initShape();
@@ -43,6 +43,11 @@ sf::FloatRect Enemy::getBounds() const
 sf::Vector2f Enemy::getPos() const
 {
 	return this->shape.getPosition();
+}
+
+void Enemy::setPos(float x, float y)
+{
+	this->shape.setPosition(sf::Vector2f(x, y));
 }
 
 // Functions

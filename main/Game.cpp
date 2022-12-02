@@ -205,18 +205,21 @@ void Game::updateEnemies()
 	this->spawnTimer += 0.5f;
 	if (this->spawnTimer >= this->spawnTimerMax)
 	{
-		// Generate random radius
-		float randRad = rand() % 20 + 20;
+		// Create temp Enemy object
+		Enemy* tempEnemy = new Enemy(0, 0);
+
 
 		// Simple check if enemy's rand position intersects window bounds
 		float randX = rand() % this->window->getSize().x;
-		if (randX + randRad*2 > this->window->getSize().x)
+		if (randX + tempEnemy->getBounds().width > this->window->getSize().x)
 		{
-			randX = randX - randRad;
+			randX = randX - tempEnemy->getBounds().width;
 		}
 
+		tempEnemy->setPos(randX, -50);
+
 		// Push to vector with enemies nwe member
-		this->enemies.push_back(new Enemy(randX, -50, randRad));
+		this->enemies.push_back(tempEnemy);
 
 		this->spawnTimer = 0.f; // Reset timer
 	}
