@@ -200,14 +200,28 @@ void Game::updateEnemies()
 		- spawns enemies with cooldown
 		- at random position
 	*/
-	
+
+	// Spawn enemies with timer
 	this->spawnTimer += 0.5f;
 	if (this->spawnTimer >= this->spawnTimerMax)
 	{
-		this->enemies.push_back(new Enemy(rand() % this->window->getSize().x-20.f, -50));
-		this->spawnTimer = 0.f;
+		// Generate random radius
+		float randRad = rand() % 20 + 20;
+
+		// Simple check if enemy's rand position intersects window bounds
+		float randX = rand() % this->window->getSize().x;
+		if (randX + randRad*2 > this->window->getSize().x)
+		{
+			randX = randX - randRad;
+		}
+
+		// Push to vector with enemies nwe member
+		this->enemies.push_back(new Enemy(randX, -50, randRad));
+
+		this->spawnTimer = 0.f; // Reset timer
 	}
 
+	// Go through enemies vector
 	for (size_t i = 0; i < this->enemies.size(); i++)
 	{
 		this->enemies[i]->update();
