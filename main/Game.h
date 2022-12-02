@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "Bullet.h"
+#include "Enemy.h"
 
 #include <map>
 
@@ -22,6 +23,9 @@ private:
 
 	// Creating a player
 	Player* player;
+
+	// Enemies
+	Enemy* enemy;
 
 	// INIT functions
 	void initVariables();
