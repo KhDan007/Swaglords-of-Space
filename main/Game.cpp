@@ -150,7 +150,10 @@ void Game::updateInput()
 	{
 		// Spawning a bullet
 		this->bullets.push_back(new Bullet(
-			this->textures["BULLET"], this->player->getCenterPosX(), this->player->getPos().y, 0, -1, 10
+			this->textures["BULLET"],
+			this->player->getCenterPosX(),
+			this->player->getPos().y,
+			0, -1, 10
 		));
 	}
 }
@@ -201,13 +204,19 @@ void Game::updateEnemies()
 	this->spawnTimer += 0.5f;
 	if (this->spawnTimer >= this->spawnTimerMax)
 	{
-		this->enemies.push_back(new Enemy(rand() % 200, rand() % 200));
+		this->enemies.push_back(new Enemy(rand() % this->window->getSize().x-20.f, -50));
 		this->spawnTimer = 0.f;
 	}
 
-	for (auto* enemy : this->enemies)
+	for (size_t i = 0; i < this->enemies.size(); i++)
 	{
-		enemy->update();
+		this->enemies[i]->update();
+	
+		// Remove enemies which outside the screen
+		if (this->enemies[i]->getBounds().top > this->window->getSize().y)
+		{
+			this->enemies.erase(this->enemies.begin() + i);
+		}
 	}
 }
 
