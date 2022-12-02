@@ -46,6 +46,11 @@ sf::Vector2f Enemy::getPos() const
 	return this->shape.getPosition();
 }
 
+const int& Enemy::getPoints()
+{
+	return this->points;
+}
+
 void Enemy::setPos(float x, float y)
 {
 	this->shape.setPosition(sf::Vector2f(x, y));

@@ -262,7 +262,6 @@ void Game::updateEnemiesAndCombat()
 		// Create temp Enemy object
 		Enemy* tempEnemy = new Enemy(0, 0);
 
-
 		// Simple check if enemy's rand position intersects window bounds
 		float randX = static_cast<float>(rand() % this->window->getSize().x);
 		if (randX + tempEnemy->getBounds().width > this->window->getSize().x)
@@ -285,22 +284,39 @@ void Game::updateEnemiesAndCombat()
 
 		this->enemies[i]->update();
 
+		if (this->enemies[i]->getBounds().intersects(this->player->getBounds()))
+		{
+			delete this->enemies[i];
+
+			this->enemies.erase(this->enemies.begin() + i);
+			isEnemyRemoved = true;
+		}
+
 		// COMBAT
 		for (size_t j{}; j < this->bullets.size() && !isEnemyRemoved; ++j)
 		{
 			if (this->bullets[j]->getBounds().intersects(this->enemies[i]->getBounds()))
 			{
+				// Add points
+				this->points += this->enemies[i]->getPoints();
+
+				// Delete allocated memory
+				delete this->enemies[i];
+				delete this->bullets[j];
+
+				// Remove objects from vectors
 				this->bullets.erase(this->bullets.begin() + j);
 				this->enemies.erase(this->enemies.begin() + i);
 				isEnemyRemoved = true;
 			
-				this->points += 1;
 			}
 		}
 	
 		// Remove enemies which outside the screen
 		if (!isEnemyRemoved && this->enemies[i]->getBounds().top > this->window->getSize().y)
 		{
+			delete this->enemies[i];
+
 			this->enemies.erase(this->enemies.begin() + i);
 			isEnemyRemoved = true;
 		}

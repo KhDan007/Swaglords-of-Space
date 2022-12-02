@@ -27,6 +27,8 @@ public:
 	sf::FloatRect getBounds() const;
 	sf::Vector2f getPos() const;
 
+	const int& getPoints();
+
 	// Setters
 	void setPos(float x, float y);
 
