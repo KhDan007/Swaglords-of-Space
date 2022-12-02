@@ -27,6 +27,8 @@ public:
 	// Accessor
 	sf::FloatRect getBounds() const; // Get global bounds of bullet
 
+	// Setters
+
 	// Functions
 	void update();
 	void render(sf::RenderTarget* target);

@@ -31,6 +31,10 @@ private:
 	// GUI
 	sf::Font font;
 	sf::Text pointsText;
+
+	// World
+	sf::Texture worldTexture;
+	sf::Sprite worldBG;
 	
 	// Member variables
 	bool isEndgame;
@@ -57,6 +61,7 @@ private:
 
 	void initFonts();
 	void initGUI();
+	void initWorld();
 
 	void initPlayer();
 	void initEnemies();
@@ -87,6 +92,8 @@ public:
 	
 	// RENDER
 	void renderGUI(sf::RenderTarget* target);
+
+	void renderWorld(sf::RenderTarget* target);
 
 	void render();
 };
