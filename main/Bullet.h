@@ -11,18 +11,21 @@
 class Bullet
 {
 private:
+	// creating sprite
 	sf::Sprite shape;
 
+	// Member varialbes
 	sf::Vector2f direction;
 	float movementSpeed = 0;
 
 public:
+	// Constructors / Destructors
 	Bullet();
 	Bullet(sf::Texture* texture, float pos_x, float pos_y, float dir_x, float dir_y, float movement_speed);
 	virtual ~Bullet();
 
 	// Accessor
-	sf::FloatRect getBounds() const;
+	sf::FloatRect getBounds() const; // Get global bounds of bullet
 
 	// Functions
 	void update();

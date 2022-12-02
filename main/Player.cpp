@@ -1,5 +1,7 @@
 #include "Player.h"
 
+// INIT
+// INIT VARIABLES
 void Player::initVaraibles()
 {
 	this->movementSpeed = 5.f;
@@ -8,7 +10,7 @@ void Player::initVaraibles()
 	this->attackCoolDown = this->attackCoolDownMax;
 }
 
-// INIT
+// INIT TEXTURES
 void Player::initTexture()
 {
 	// Load a texture from file
@@ -16,6 +18,7 @@ void Player::initTexture()
 		std::cout << "ERROR::PLAYER::INITTEXTURE::Couldn't load texture from file\n";
 }
 
+// INIT SPRITE
 void Player::initSprite()
 {
 	// Set the texture to the sprite
@@ -38,6 +41,8 @@ Player::~Player()
 {
 }
 
+// Getters
+// Get position of player
 const sf::Vector2f& Player::getPos() const
 {
 	return this->sprite.getPosition();
@@ -53,12 +58,11 @@ sf::FloatRect Player::getBounds()
 	return this->sprite.getGlobalBounds();
 }
 
+// Setters
 void Player::setPos(float pos_x, float pos_y)
 {
 	this->sprite.setPosition(sf::Vector2f(pos_x, pos_y));
 }
-
-
 
 
 // Fucntions
@@ -78,6 +82,7 @@ bool Player::canAttack()
 }
 
 
+// UPDATE
 void Player::updateAttack()
 {
 	if (this->attackCoolDown < this->attackCoolDownMax)
@@ -86,7 +91,6 @@ void Player::updateAttack()
 	}
 }
 
-// UPDATE
 void Player::update()
 {
 	this->updateAttack();

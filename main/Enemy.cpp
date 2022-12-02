@@ -1,6 +1,7 @@
 #include "Enemy.h"
 
-
+// INIT
+// INIT VARIABLES
 void Enemy::initVariables()
 {
 	this->type	= 0;
@@ -10,10 +11,12 @@ void Enemy::initVariables()
 	this->points	= 0;
 }
 
+// INIT SHAPE
 void Enemy::initShape()
 {
 	this->shape.setRadius(rand()%30+10);
-	this->shape.setPointCount(4);
+	this->shape.setPointCount(static_cast<float>(rand() % 4 + 3));
+	this->shape.setFillColor(sf::Color(rand() % 200 + 55, rand() % 200 + 55, rand() % 200 + 55, 255));
 }
 
 // Constructors / Destructors

@@ -1,7 +1,5 @@
 #include "Bullet.h"
 
-
-
 // CONSTRUCTORS / DESTRUCTORS
 Bullet::Bullet() {
 
@@ -38,7 +36,7 @@ void Bullet::update()
 }
 
 
-// Render
+// RENDER
 void Bullet::render(sf::RenderTarget* target)
 {
 	target->draw(this->shape);
