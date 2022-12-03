@@ -51,6 +51,11 @@ const int& Enemy::getPoints()
 	return this->points;
 }
 
+const int& Enemy::getDamage()
+{
+	return this->damage;
+}
+
 void Enemy::setPos(float x, float y)
 {
 	this->shape.setPosition(sf::Vector2f(x, y));

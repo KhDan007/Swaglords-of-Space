@@ -6,6 +6,7 @@ void Game::initVariables()
 	this->isEndgame = false;
 	this->points = 0;
 	this->bulletSpeed = 10.f;
+	this->hpBarWidth = 200.f;
 }
 
 // INIT WINDOW
@@ -52,7 +53,29 @@ void Game::initGUI()
 	this->pointsText.setCharacterSize(30);
 	this->pointsText.setFillColor(sf::Color::White);
 	this->pointsText.setString("NONE");
-	this->pointsText.setPosition(sf::Vector2f(10, 10));
+	this->pointsText.setPosition(sf::Vector2f(10, 0));
+
+	// Init player GUI
+	this->playerHpBar.setSize(sf::Vector2f(this->hpBarWidth, 20.f));
+	this->playerHpBar.setFillColor(sf::Color::Red);
+	this->playerHpBar.setPosition(sf::Vector2f(10.f, 40.f));
+	this->playerHpBar.setOutlineColor(sf::Color(136, 136, 136));
+
+	this->playerHpBarBack = this->playerHpBar;
+	this->playerHpBarBack.setFillColor(sf::Color(56, 46, 46));
+	this->playerHpBarBack.setOutlineThickness(2.f);
+
+	// Init game over text
+	this->gameOverGUI.setFont(this->font);
+	this->gameOverGUI.setCharacterSize(100);
+	this->gameOverGUI.setFillColor(sf::Color::Green);
+	this->gameOverGUI.setString("Game Over!");
+
+	// Center game over text
+	this->gameOverGUI.setPosition(sf::Vector2f(
+		this->window->getSize().x / 2 - this->gameOverGUI.getGlobalBounds().width / 2,
+		this->window->getSize().y / 2 - this->gameOverGUI.getGlobalBounds().height / 2
+	));
 }
 
 void Game::initWorld()
@@ -198,7 +221,17 @@ void Game::updateInput()
 			0, -1, this->bulletSpeed
 		);
 
-		
+		this->bullets.push_back(tempBullet);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->player->canAttack())
+	{
+		// Spawning a bullet
+		Bullet* tempBullet = new Bullet(
+			this->textures["BULLET"],
+			this->player->getCenterPosX(),
+			this->player->getPos().y,
+			0, -1, this->bulletSpeed
+		);
 
 		this->bullets.push_back(tempBullet);
 	}
@@ -210,6 +243,11 @@ void Game::updateGUI()
 	Spoints << "Points: " << this->points << "\n";
 
 	this->pointsText.setString(Spoints.str());
+
+	// Update player hp bar
+	float hpPercent = static_cast<float>(this->player->getHp()) / this->player->getHpMax();
+
+	this->playerHpBar.setSize(sf::Vector2f(this->hpBarWidth * hpPercent, this->playerHpBar.getSize().y));
 }
 
 // UPDATE BULLETS
@@ -269,7 +307,7 @@ void Game::updateEnemiesAndCombat()
 			randX = randX - tempEnemy->getBounds().width;
 		}
 
-		tempEnemy->setPos(randX, -50);
+		tempEnemy->setPos(randX, -10);
 
 		// Push to vector with enemies nwe member
 		this->enemies.push_back(tempEnemy);
@@ -284,10 +322,12 @@ void Game::updateEnemiesAndCombat()
 
 		this->enemies[i]->update();
 
+		// Enemy player collision
 		if (this->enemies[i]->getBounds().intersects(this->player->getBounds()))
 		{
-			delete this->enemies[i];
+			this->player->loseHp(this->enemies[i]->getDamage());
 
+			delete this->enemies[i];
 			this->enemies.erase(this->enemies.begin() + i);
 			isEnemyRemoved = true;
 		}
@@ -315,8 +355,9 @@ void Game::updateEnemiesAndCombat()
 		// Remove enemies which outside the screen
 		if (!isEnemyRemoved && this->enemies[i]->getBounds().top > this->window->getSize().y)
 		{
-			delete this->enemies[i];
+			this->player->loseHp(this->enemies[i]->getDamage());
 
+			delete this->enemies[i];
 			this->enemies.erase(this->enemies.begin() + i);
 			isEnemyRemoved = true;
 		}
@@ -328,22 +369,30 @@ void Game::update()
 {
 	this->pollEvents();
 
-	this->updateInput();
+	if (!this->isEndgame)
+	{
+		this->updateInput();
 
-	this->player->update();
+		this->player->update();
 
-	this->updateWindowBounds(this->window);
+		this->updateWindowBounds(this->window);
 
-	this->updateBullets();
+		this->updateBullets();
 
-	this->updateEnemiesAndCombat();
+		this->updateEnemiesAndCombat();
 
-	this->updateGUI();
+		this->updateGUI();
+	}
 }
 
 void Game::renderGUI(sf::RenderTarget* target)
 {
+	// Draw points
 	target->draw(this->pointsText);
+
+	// Draw hp bar
+	target->draw(this->playerHpBarBack);
+	target->draw(this->playerHpBar);
 }
 
 void Game::renderWorld(sf::RenderTarget* target)
@@ -375,6 +424,13 @@ void Game::render()
 
 	// Draw GUI
 	this->renderGUI(this->window);
+
+	// Draw game over text
+	if (this->player->getHp() <= 0)
+	{
+		this->window->draw(this->gameOverGUI);
+		this->isEndgame = true;
+	}
 
 	// Show everything
 	this->window->display();

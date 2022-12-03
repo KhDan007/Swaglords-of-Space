@@ -4,10 +4,13 @@
 // INIT VARIABLES
 void Player::initVaraibles()
 {
-	this->movementSpeed = 8.f;
+	this->movementSpeed = 10.f;
 
 	this->attackCoolDownMax = 10.f;
 	this->attackCoolDown = this->attackCoolDownMax;
+
+	this->hpMax = 100;
+	this->hp = this->hpMax;
 }
 
 // INIT TEXTURES
@@ -60,10 +63,25 @@ sf::FloatRect Player::getBounds()
 	return this->sprite.getGlobalBounds();
 }
 
+const int Player::getHp() const
+{
+	return this->hp;
+}
+
+const int Player::getHpMax() const
+{
+	return this->hpMax;
+}
+
 // Setters
 void Player::setPos(float pos_x, float pos_y)
 {
 	this->sprite.setPosition(sf::Vector2f(pos_x, pos_y));
+}
+
+void Player::setHp(int value)
+{
+	this->hp = value;
 }
 
 
@@ -81,6 +99,14 @@ bool Player::canAttack()
 		return true;
 	}
 	return false;
+}
+
+void Player::loseHp(int value)
+{
+	this->hp -= value;
+
+	if (this->hp < 0)
+		this->hp = 0;
 }
 
 

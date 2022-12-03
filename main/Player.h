@@ -31,6 +31,10 @@ private:
 	float attackCoolDown;
 	float attackCoolDownMax;
 
+	// HP
+	int hp;
+	int hpMax;
+
 	// INIT Funcitons
 	void initVaraibles();
 	void initTexture();
@@ -47,12 +51,17 @@ public:
 
 	sf::FloatRect getBounds(); // Get global bounds of player
 
+	const int getHp() const;
+	const int getHpMax() const;
+
 	// Setters
 	void setPos(float pos_x, float pos_y); // Set position of player
+	void setHp(int value);
 
 	// Functions
 	void move(const float dirX, const float dirY);
 	bool canAttack();
+	void loseHp(int value);
 
 	void updateAttack();
 	void update();

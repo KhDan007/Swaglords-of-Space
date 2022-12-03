@@ -32,6 +32,8 @@ private:
 	sf::Font font;
 	sf::Text pointsText;
 
+	sf::Text gameOverGUI;
+
 	// World
 	sf::Texture worldTexture;
 	sf::Sprite worldBG;
@@ -47,6 +49,11 @@ private:
 
 	// Creating a player
 	Player* player;
+
+	// Player GUI
+	float hpBarWidth;
+	sf::RectangleShape playerHpBar;
+	sf::RectangleShape playerHpBarBack;
 
 	// Enemies
 	float spawnTimer;

@@ -28,6 +28,8 @@ public:
 	sf::Vector2f getPos() const;
 
 	const int& getPoints();
+	const int& getDamage();
+
 
 	// Setters
 	void setPos(float x, float y);
